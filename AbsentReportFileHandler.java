@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class AbsentReportFileHandler {
 
     private RandomAccessFile  absentReport;
-    private String absentReportFilePath = "./absent_report.text";  
+    private String absentReportFilePath = "./absent_report.txt";  
 
     AbsentReportFileHandler() {
         try {
