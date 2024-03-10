@@ -2,3 +2,4 @@ UID,Email,Password,Username,Role
 7f9ec0d8-3e2d-4de8-8ee1-9a6f9fc5bebc,khansarim539@gmail.com,12345,successfulBussinnessman,4
 9c84aa85-174d-4f98-b61b-c58c830304cf,khansabih8@gmail.com,12345,techBucket,2
 e7eb87c0-7edb-4c87-9057-7d85cf25fd73,abcd,abcd,abcd,2
+50e960,abcde,abcde,A,2

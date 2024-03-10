@@ -40,7 +40,7 @@ class PartTimeTeacherManagement{
 		}
 
 		// Generating a unique id for the new user
-		String newUserID = UUID.randomUUID().toString();
+		String newUserID = UUID.randomUUID().toString().substring(0,6);
 
 		// If all details are right, then write the details in the user_auth text file
 		String auth_results = newUserID+","+tempEmail+","+tempPass+","+tempName+","+tempRole+"\n";
@@ -141,13 +141,17 @@ class PartTimeTeacherManagement{
 		}
 
 		if(USER_LOGGED_IN.equals("SUCCESS")){
-			System.out.println("USER LOGGED IN SUCCESSFULLY");
-			System.out.println("---------------------------");
-			System.out.println("UserID : "+user_values[0]);
-			System.out.println("Email : "+user_values[1]);
-			System.out.println("Password : "+user_values[2]);
-			System.out.println("Username : "+user_values[3]);
-			System.out.println("Role : "+user_values[4]);
+			// System.out.println("USER LOGGED IN SUCCESSFULLY");
+			// System.out.println("---------------------------");
+			// System.out.println("UserID : "+user_values[0]);
+			// System.out.println("Email : "+user_values[1]);
+			// System.out.println("Password : "+user_values[2]);
+			// System.out.println("Username : "+user_values[3]);
+			// System.out.println("Role : "+user_values[4]);
+			ClassDirector class_director = new ClassDirector(
+				user_values[0], user_values[1], user_values[2], user_values[3], Integer.parseInt(user_values[4])
+			);
+			class_director.initialChoice();
 		}
 		
 	}

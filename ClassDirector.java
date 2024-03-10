@@ -2,6 +2,9 @@ import java.io.*;
 import java.util.*;
 class ClassDirector{
 
+	// Global reader and writer
+	static fileReadAndWrite classDirectorReaderAndWriter = new fileReadAndWrite();
+
 	static BufferedReader classDirectorReader = new BufferedReader(new InputStreamReader(System.in));
 
 	static String user_id, email, username, password;
@@ -17,12 +20,22 @@ class ClassDirector{
 
 	// Utility class for requirement, basically user defined variable/object - Start
 	static class Requirement implements Comparable<Requirement>{
+		String requirementUserID;
 		String date_of_joining;
 		int number_of_teacher;
+		boolean requirementStatus;
+		int requirementAlloted;
+		String newRequirementID;
 
-		Requirement(String date_of_joining, int number_of_teacher){
+		Requirement(String date_of_joining, int number_of_teacher, boolean requirementStatus, int requirementAlloted){
 			this.date_of_joining = date_of_joining;
 			this.number_of_teacher = number_of_teacher;
+			requirementUserID = user_id;
+			this.requirementStatus = requirementStatus;
+			this.requirementAlloted = requirementAlloted;
+
+			// Generating a unique id for the new user
+			newRequirementID = UUID.randomUUID().toString().substring(0,6);
 		}
 
 		@Override
@@ -32,6 +45,11 @@ class ClassDirector{
 	}
 	// Utility class for requirement, basically user defined variable/object - End
 
+	// Utility method to add requirement to the database
+	static void addRequirementToDatabase(Requirement requirement) throws IOException{
+		classDirectorReaderAndWriter.writeToFile("class_director.txt", requirement);
+	}
+
 	// Method to get the requirements
 	static void inputRequirements() throws IOException{
 		// Flag to set whenever we are done with inputting.
@@ -40,29 +58,39 @@ class ClassDirector{
 		ArrayList<Requirement> class_director_requirements = new ArrayList<Requirement>();
 		// A while loop running until the time the flag is set to terminate it.
 		while(endInput.equalsIgnoreCase("Y")){
+			System.out.println("\n------------------------");
+			System.out.println("Requirement input : ");
+			System.out.println("--------------------------");
 			System.out.print("Date of Joining(DD/MM/YYYY) : ");
 			String dateOfJoining = classDirectorReader.readLine().trim();
 			System.out.print("Number of teachers required : ");
 			int numberOfTeachers = Integer.parseInt(classDirectorReader.readLine().trim());
 
 			// Creating a requirements object
-			Requirement newRequirement = new Requirement(dateOfJoining, numberOfTeachers);
+			Requirement newRequirement = new Requirement(dateOfJoining, numberOfTeachers, false, 0);
 
 			// Show the user a confirmation of their entry.
+			System.out.println("\n-----------------------------------------");
 			System.out.println("Are you sure you want to make this entry : ");
+			System.out.println("-------------------------------------------");
 			System.out.println("Date Of Joining: "+newRequirement.date_of_joining);
 			System.out.println("Number of teachers required: "+newRequirement.number_of_teacher);
-			
-			// Adding this requirement to our list
-			class_director_requirements.add(newRequirement);
+			System.out.print("Type 'Y' for Yes and 'N' for No and press Enter: ");
+			String tempEntryInput = classDirectorReader.readLine().trim();
+
+			// Adding this requirement to our database
+			if(tempEntryInput.equalsIgnoreCase("Y")){
+				addRequirementToDatabase(newRequirement);
+			}
 
 			// Getting the input for the flag, whether to stop getting the input or not.
-			System.out.print("Want to add another requirement(Type 'Y' for 'Yes' and 'N' for 'No' and press enter) : ");
+			System.out.print("\nWant to add another requirement(Type 'Y' for 'Yes' and 'N' for 'No' and press enter) : ");
 			endInput = classDirectorReader.readLine().trim();
 		}
 	}
 
 	static void initialChoice() throws IOException{
+		System.out.println("-----------------------------");
 		System.out.println("Welcome "+username);
 		System.out.println("-----------------------------");
 		System.out.println("What would you like to do today ? Chose an option below(Put in the option number and press enter) : ");
@@ -74,5 +102,9 @@ class ClassDirector{
 			case 1: inputRequirements();
 			case 2: System.exit(0);
 		}
+	}
+
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	}
 }
