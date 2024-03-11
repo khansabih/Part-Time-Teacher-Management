@@ -1,3 +1,0 @@
-UID,Name,Role,Date,ClaimAmount,Approved
-7f9ec0d8-3e2d-4de8-8ee1-9a6f9fc5bebc,khansarim539@gmail.com,4,500,true
-1213,Anugrah,2,20-02-2023,500,false

@@ -1,0 +1,3 @@
+UID,Date,ClaimAmount,Approved
+1213,20-02-2023,500,false
+3cbe8d,11-03-2024,700,false
