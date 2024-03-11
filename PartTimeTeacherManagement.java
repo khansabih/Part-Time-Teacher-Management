@@ -148,13 +148,19 @@ class PartTimeTeacherManagement{
 			// System.out.println("Email : "+user_values[1]);
 			// System.out.println("Password : "+user_values[2]);
 			// System.out.println("Username : "+user_values[3]);
-			System.out.println("Role : "+user_values[4]);
+			System.out.println("Test Role : "+user_values[4]);
 			switch (Integer.parseInt(user_values[4])) {
 				case 2:
 					ClassDirector class_director = new ClassDirector(
 					user_values[0], user_values[1], user_values[2], user_values[3], Integer.parseInt(user_values[4])
 					);
 					class_director.initialChoice();
+					break;
+				case 3:
+					System.out.println("TEST");
+					AbsentReportFileHandler absentReportFileHandler = new AbsentReportFileHandler();
+					Recruiter recruiter = new Recruiter(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], absentReportFileHandler);
+					recruiter.showChoices();
 					break;
 				case 5:
 					PaymentClaimsFileHandler fileHandler = new PaymentClaimsFileHandler();
