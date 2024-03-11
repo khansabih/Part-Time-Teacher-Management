@@ -1,4 +1,2 @@
-UID,Name,DateOfAbsence
-7f9ec0d8-3e2d-4de8-8ee1-9a6f9fc5bebc,khansarim539@gmail.com,4
-Anugrah,Anugrah,29-02-2023
-Anugrah,anugrah,29-02-2023
+UID,DateOfAbsence,ReplacementUID
+Anugrah,29-02-2023, Sebastian

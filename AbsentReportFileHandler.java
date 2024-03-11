@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class AbsentReportFileHandler {
 
@@ -37,37 +37,20 @@ public class AbsentReportFileHandler {
         }
     }
 
-    void writeToAbsentReport(){
+    void writeToAbsentReport(ArrayList <String> absentReportRecord){
         try {
             this.absentReport.seek(this.absentReport.length());
-            Scanner scanner = new Scanner(System.in);
-            ArrayList<String> absentReportRecord = new ArrayList<>();
-            
-            System.out.println("Writing to file");
-
-            System.out.print("Enter UID of the absent teacher : ");
-			absentReportRecord.add(scanner.nextLine());
-			System.out.print("Enter Name of the absent teacher : ");
-			absentReportRecord.add(scanner.nextLine());
-			System.out.print("Enter the date of absence : ");
-			absentReportRecord.add(scanner.nextLine());
-
-
             this.absentReport.writeBytes(String.join(",", absentReportRecord) + "\n");
-            scanner.close();
         } catch (Exception e) {
             // TODO: handle exception
         }
     }
+    
 
-    public static void main(String[] args) {
-        AbsentReportFileHandler fileHandler = new AbsentReportFileHandler();
+    // public static void main(String[] args) {
+    //     AbsentReportFileHandler fileHandler = new AbsentReportFileHandler();
 
-        // View initial report
-        fileHandler.viewAbsentReport();
-        // Update report
-        fileHandler.writeToAbsentReport();
-        // View updated report
-        fileHandler.viewAbsentReport();
-    }
+    //     // View initial report
+    //     fileHandler.viewAbsentReport();
+    // }
 }

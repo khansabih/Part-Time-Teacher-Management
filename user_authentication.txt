@@ -4,3 +4,4 @@ UID,Email,Password,Username,Role
 e7eb87c0-7edb-4c87-9057-7d85cf25fd73,abcd,abcd,abcd,2
 50e960,abcde,abcde,A,2
 3cbe8d,test@test.in,Anugrah@1998,PPT_Test1,5
+616aea,recruiter@gmail.com,Recruiter123,Recruiter123,3
