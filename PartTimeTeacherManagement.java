@@ -32,9 +32,10 @@ class PartTimeTeacherManagement{
 		System.out.println("2 - Class director");
 		System.out.println("3 - Recruiter");
 		System.out.println("4 - PTT director");
+		System.out.println("5 - Part time teacher");
 		System.out.print("Enter role(enter the number in front of the respective role and press enter) : ");
 		int tempRole = Integer.parseInt(br.readLine().trim());
-		while(tempRole < 0 || tempRole > 4){
+		while(tempRole < 0 || tempRole > 5){
 			System.out.println("Choice doesn't exist... please enter a valid choice : ");
 			tempRole = Integer.parseInt(br.readLine().trim());
 		}
@@ -141,17 +142,31 @@ class PartTimeTeacherManagement{
 		}
 
 		if(USER_LOGGED_IN.equals("SUCCESS")){
-			// System.out.println("USER LOGGED IN SUCCESSFULLY");
+			System.out.println("USER LOGGED IN SUCCESSFULLY");
 			// System.out.println("---------------------------");
 			// System.out.println("UserID : "+user_values[0]);
 			// System.out.println("Email : "+user_values[1]);
 			// System.out.println("Password : "+user_values[2]);
 			// System.out.println("Username : "+user_values[3]);
-			// System.out.println("Role : "+user_values[4]);
-			ClassDirector class_director = new ClassDirector(
-				user_values[0], user_values[1], user_values[2], user_values[3], Integer.parseInt(user_values[4])
-			);
-			class_director.initialChoice();
+			System.out.println("Role : "+user_values[4]);
+			switch (Integer.parseInt(user_values[4])) {
+				case 2:
+					ClassDirector class_director = new ClassDirector(
+					user_values[0], user_values[1], user_values[2], user_values[3], Integer.parseInt(user_values[4])
+					);
+					class_director.initialChoice();
+					break;
+				case 5:
+					PaymentClaimsFileHandler fileHandler = new PaymentClaimsFileHandler();
+					PartTimeTeacher ppt = new PartTimeTeacher(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], fileHandler);
+					ppt.showChoices();
+					break;
+			
+				default:
+				System.out.println("ROLE functionalities not defined!!");
+					break;
+			}
+			
 		}
 		
 	}
