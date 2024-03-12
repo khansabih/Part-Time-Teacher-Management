@@ -18,6 +18,8 @@ class ClassDirector{
 		this.role = role;
 	}
 
+	ClassDirector(){}
+
 	// Utility class for requirement, basically user defined variable/object - Start
 	static class Requirement implements Comparable<Requirement>{
 		String requirementUserID;
@@ -27,15 +29,17 @@ class ClassDirector{
 		int requirementAlloted;
 		String newRequirementID;
 
-		Requirement(String date_of_joining, int number_of_teacher, boolean requirementStatus, int requirementAlloted){
+		Requirement(String date_of_joining, int number_of_teacher, boolean requirementStatus, int requirementAlloted,
+			String current_user_id, String newRequirementID
+		){
 			this.date_of_joining = date_of_joining;
 			this.number_of_teacher = number_of_teacher;
-			requirementUserID = user_id;
+			requirementUserID = current_user_id;
 			this.requirementStatus = requirementStatus;
 			this.requirementAlloted = requirementAlloted;
-
+			this.newRequirementID = newRequirementID;
 			// Generating a unique id for the new user
-			newRequirementID = UUID.randomUUID().toString().substring(0,6);
+			// newRequirementID = UUID.randomUUID().toString().substring(0,6);
 		}
 
 		@Override
@@ -66,8 +70,9 @@ class ClassDirector{
 			System.out.print("Number of teachers required : ");
 			int numberOfTeachers = Integer.parseInt(classDirectorReader.readLine().trim());
 
-			// Creating a requirements object
-			Requirement newRequirement = new Requirement(dateOfJoining, numberOfTeachers, false, 0);
+			// Creating a requirements object with a unique id
+			String reqID = UUID.randomUUID().toString().substring(0,6);
+			Requirement newRequirement = new Requirement(dateOfJoining, numberOfTeachers, false, 0, user_id, reqID);
 
 			// Show the user a confirmation of their entry.
 			System.out.println("\n-----------------------------------------");
@@ -89,6 +94,102 @@ class ClassDirector{
 		}
 	}
 
+	// For writing into the database
+	static void makeAllotment(String requirementID, int allotmentCount) throws IOException{
+		StringBuilder temporaryDatabaseBuilder = new StringBuilder();
+		BufferedReader allotmentReader = new BufferedReader(new FileReader("class_director.txt"));
+		String requirementEntry;
+		while((requirementEntry = allotmentReader.readLine()) != null){
+			String requirementEntryVals[] = requirementEntry.split(",");
+			String reqId = requirementEntryVals[0];
+			if(reqId.equals(requirementID)){
+				// Get the original values of the entry.
+				String reqID = reqId;
+				String reqUserID = requirementEntryVals[1];
+				String doj = requirementEntryVals[2];
+				int number_of_teachers = Integer.parseInt(requirementEntryVals[3]);
+				int alloted = allotmentCount;
+				boolean status = true;
+
+				// Create the new and modified string.
+				String modifiedEntry = reqId+","+reqUserID+","+doj+","+number_of_teachers+","+alloted+","+status+"\n";
+
+				// Add this modified entry into the new temporary dataset.
+				temporaryDatabaseBuilder.append(modifiedEntry);
+			}else{
+				String reqEntry = requirementEntry+"\n";
+				temporaryDatabaseBuilder.append(reqEntry);
+			}
+		}
+
+		// Temporary writer here.
+		BufferedWriter allotmentWriter = new BufferedWriter(new FileWriter("class_director.txt"));
+		allotmentWriter.write(temporaryDatabaseBuilder.toString());
+
+		System.out.println("Succesffully made the allotments");
+
+		allotmentReader.close();
+		allotmentWriter.close();
+	}
+
+	// Utility function to get the requirement where status is pending
+	static ArrayList<Requirement> getPendingRequirements() throws IOException{
+		// Arraylist to accomodate all the values
+		ArrayList<Requirement> pendingRequirements = new ArrayList<Requirement>();
+		// Reading from file
+		BufferedReader pendingRequirementReader = classDirectorReaderAndWriter.readFromFile("class_director.txt");
+		String requirementText;
+		int reqLine = 0;
+		while((requirementText = pendingRequirementReader.readLine()) != null){
+			if(reqLine > 0){
+				String reqEntry[] = requirementText.trim().split(",");
+				if(reqEntry[5].equals("false")){
+					String reqID = reqEntry[0];
+					String userID = reqEntry[1];
+					String doj = reqEntry[2];
+					int techerCount = Integer.parseInt(reqEntry[3]);
+					int allotedCount = Integer.parseInt(reqEntry[4]);
+					boolean status = Boolean.parseBoolean(reqEntry[5]);
+
+					// Creating a new requirement object
+					Requirement newReq = new Requirement(
+						doj, techerCount, status, allotedCount, userID, reqID
+					);
+
+					// Adding the requirement to the list
+					pendingRequirements.add(newReq);
+				}
+			}
+
+			reqLine++;
+		}
+
+		pendingRequirementReader.close();
+		return pendingRequirements;
+	}
+	// For seeing all the requirements.
+	static void getAllRequirementsByClassDirector() throws IOException{
+		System.out.println("--------------------------------------------");
+		System.out.println("Hi, here you can access all the requirements");
+		System.out.println("--------------------------------------------");
+		System.out.println("Chose filter from below to get requirement data : ");
+		System.out.println("1 - Get by requirementID");
+		System.out.println("2 - Get all pending requirements");
+		System.out.print("Enter choice : ");
+		int requirementFilterChoice = Integer.parseInt(classDirectorReader.readLine().trim());
+		if(requirementFilterChoice == 1){
+
+		}else if(requirementFilterChoice == 2){
+			ArrayList<Requirement> pendingRequirementsList = getPendingRequirements();
+			System.out.println("REQID\t\tDOJ\t\t   TEACHERS\t\tSTATUS\n");
+			for(Requirement requirement: pendingRequirementsList){
+				System.out.println(requirement.newRequirementID+"\t|\t"+requirement.date_of_joining+
+					"\t|\t"+requirement.number_of_teacher+"\t|\t"+requirement.requirementStatus
+				);
+			}
+		}
+	}
+
 	static void initialChoice() throws IOException{
 		System.out.println("-----------------------------");
 		System.out.println("Welcome "+username);
@@ -100,7 +201,9 @@ class ClassDirector{
 
 		switch(class_director_choice){
 			case 1: inputRequirements();
-			case 2: System.exit(0);
+					break;
+			case 2: getAllRequirementsByClassDirector();
+				    break;
 		}
 	}
 
