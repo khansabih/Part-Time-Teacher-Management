@@ -150,6 +150,11 @@ class PartTimeTeacherManagement{
 			// System.out.println("Username : "+user_values[3]);
 			System.out.println("Test Role : "+user_values[4]);
 			switch (Integer.parseInt(user_values[4])) {
+			
+				case 1:
+					CourseDirector course_director = new CourseDirector(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4]);
+					course_director.showChoices();
+					break;
 				case 2:
 					ClassDirector class_director = new ClassDirector(
 					user_values[0], user_values[1], user_values[2], user_values[3], Integer.parseInt(user_values[4])
