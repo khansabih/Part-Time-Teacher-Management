@@ -163,10 +163,14 @@ class PartTimeTeacherManagement{
 					class_director.initialChoice();
 					break;
 				case 3:
-					System.out.println("TEST");
 					AbsentReportFileHandler absentReportFileHandler = new AbsentReportFileHandler();
 					Recruiter recruiter = new Recruiter(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], absentReportFileHandler);
 					recruiter.showChoices();
+					break;
+				case 4:
+					RequirementsFileHandler requirementsFileHandler1 = new RequirementsFileHandler();
+					PttDirector ptt_Director =  new PttDirector(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], requirementsFileHandler1);
+					ptt_Director.showChoices();
 					break;
 				case 5:
 					PaymentClaimsFileHandler paymentClaimsFileHandler = new PaymentClaimsFileHandler();
