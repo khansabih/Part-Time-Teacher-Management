@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 class fileReadAndWrite{
 	
 	// Empty constructor
@@ -7,7 +6,6 @@ class fileReadAndWrite{
 
 	// method to extract and build writing entry into the database
 	public static <T> String buildClassDirectorEntry(T classDirectorObject){
-		String classDirectorEntry = "";
 		ClassDirector.Requirement reqObj = (ClassDirector.Requirement) classDirectorObject;
 		// Extracting values from the object
 		String requirementID = reqObj.newRequirementID;
@@ -27,7 +25,7 @@ class fileReadAndWrite{
 	}
 
 	// method to read from the database
-	public static BufferedReader readFromFile(String databaseName) throws IOException{
+	public BufferedReader readFromFile(String databaseName) throws IOException{
 		BufferedReader fileReader = new BufferedReader(new FileReader(databaseName));
 		return fileReader;
 	}

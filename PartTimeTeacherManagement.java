@@ -152,8 +152,9 @@ class PartTimeTeacherManagement{
 			switch (Integer.parseInt(user_values[4])) {
 			
 				case 1:
-					CourseDirector course_director = new CourseDirector(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4]);
-					course_director.showChoices();
+					RequirementsFileHandler requirementsFileHandler = new RequirementsFileHandler();
+					CourseDirector classDirector =  new CourseDirector(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], requirementsFileHandler);
+					classDirector.showChoices();
 					break;
 				case 2:
 					ClassDirector class_director = new ClassDirector(
@@ -168,8 +169,8 @@ class PartTimeTeacherManagement{
 					recruiter.showChoices();
 					break;
 				case 5:
-					PaymentClaimsFileHandler fileHandler = new PaymentClaimsFileHandler();
-					PartTimeTeacher ppt = new PartTimeTeacher(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], fileHandler);
+					PaymentClaimsFileHandler paymentClaimsFileHandler = new PaymentClaimsFileHandler();
+					PartTimeTeacher ppt = new PartTimeTeacher(user_values[0], user_values[1], user_values[2], user_values[3], user_values[4], paymentClaimsFileHandler);
 					ppt.showChoices();
 					break;
 			
